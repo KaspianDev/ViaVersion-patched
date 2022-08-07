@@ -1,0 +1,17 @@
+name: Upstream
+on:
+  schedule:
+    - cron: "0 */2 * * *"
+  workflow_dispatch:
+jobs:
+  upstream:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.commits[0].message, '[ci-skip]')"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Upstream Sync
+        uses: aormsby/Fork-Sync-With-Upstream-action@v3.3
+        with:
+          target_sync_branch: master
+          upstream_sync_repo: ViaVersion/ViaVersion
+          upstream_sync_branch: master
